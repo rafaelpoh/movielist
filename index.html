@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Filmes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CineList</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Buscar filmes...">
+            <button type="submit">Buscar</button>
+        </form>
+    </header>
+    <main>
+        <section class="movie-category">
+            <h2>Em Cartaz</h2>
+            <div id="now-playing-container" class="movie-grid"></div>
+        </section>
+        <section class="movie-category">
+            <h2>Próximos Lançamentos</h2>
+            <div id="upcoming-container" class="movie-grid"></div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
