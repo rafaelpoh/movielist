@@ -21,6 +21,18 @@ h1 {
     font-size: 2.5em;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: row;
+}
+
+.logo {
+    height: 3rem;
+    margin-right: 0;
+}
+
 #search-form {
     display: flex;
 }
@@ -95,4 +107,45 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Estilos do Modal */
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+}
+
+#trailer-iframe {
+    width: 100%;
+    height: 85vh; /* Usa a altura da viewport para ser responsivo */
+    border: none;
+}
+
+.close-button {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: #bbb;
 }

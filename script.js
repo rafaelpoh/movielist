@@ -9,6 +9,9 @@ const apiBaseUrl = 'https://api.themoviedb.org/3';
 const mainContent = document.querySelector('main');
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
+const trailerModal = document.getElementById('trailer-modal');
+const trailerIframe = document.getElementById('trailer-iframe');
+const closeButton = document.querySelector('.close-button');
 
 // Função para exibir os filmes na tela
 function displayMovies(movies, container) {
@@ -23,6 +26,12 @@ function displayMovies(movies, container) {
         if (movie.poster_path) {
             const movieCard = document.createElement('div');
             movieCard.classList.add('movie-card');
+            movieCard.dataset.movieId = movie.id; // Adiciona o ID do filme ao card
+
+            movieCard.addEventListener('click', () => {
+                console.log(`Card clicado! ID do filme: ${movie.id}`);
+                openTrailerModal(movie.id);
+            });
 
             const movieImage = document.createElement('img');
             movieImage.src = `${imageBaseUrl}${movie.poster_path}`;
@@ -104,3 +113,41 @@ searchForm.addEventListener('submit', (e) => {
 
 // Carregamento inicial
 document.addEventListener('DOMContentLoaded', showDefaultView);
+
+// Funções do Modal de Trailer
+async function openTrailerModal(movieId) {
+    const apiUrl = `${apiBaseUrl}/movie/${movieId}/videos?api_key=${apiKey}&language=pt-BR`;
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`Erro na API de vídeos: ${response.statusText}`);
+        const data = await response.json();
+        
+        // Procura por um trailer oficial no YouTube
+        const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+
+        if (trailer && trailer.key) {
+            trailerIframe.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+            trailerModal.style.display = 'flex';
+        } else {
+            alert('Trailer não disponível para este filme.');
+        }
+    } catch (error) {
+        console.error('Erro ao buscar trailer:', error);
+        alert('Não foi possível carregar o trailer.');
+    }
+}
+
+function closeTrailerModal() {
+    trailerModal.style.display = 'none';
+    trailerIframe.src = ''; // Para o vídeo ao fechar
+}
+
+// Event Listeners para fechar o modal
+closeButton.addEventListener('click', closeTrailerModal);
+
+trailerModal.addEventListener('click', (event) => {
+    // Fecha o modal se o clique for no fundo (fora do conteúdo)
+    if (event.target === trailerModal) {
+        closeTrailerModal();
+    }
+});
